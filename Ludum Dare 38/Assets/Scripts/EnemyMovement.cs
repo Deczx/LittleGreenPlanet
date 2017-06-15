@@ -9,9 +9,7 @@ public class EnemyMovement : MonoBehaviour {
     // Target to move towards 
     public GameObject target;
 
-    //
     private Rigidbody2D enemyRigidBody;
-
 
     // Use this for initialization
     void Start () {
@@ -22,7 +20,6 @@ public class EnemyMovement : MonoBehaviour {
 
     private void Awake()
     { 
-
         // Rotate in direction of target.
         Vector2 moveDirection = (target.transform.position - this.transform.position).normalized;
         if (moveDirection != Vector2.zero)
