@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Algorithm : MonoBehaviour {
-
-
+public class Algorithm {
+    
 	/* GA parameters */
 	private static double uniformRate = 0.5;
 	private static double mutationRate = 0.015;
@@ -45,7 +44,7 @@ public class Algorithm : MonoBehaviour {
 	public static Population EvolvePopulation(Population pop)
 	{
 		Population newPopulation = new Population(pop.Size(), true);
-
+        
 		// Keep our best individual
 		if (elitism)
 		{

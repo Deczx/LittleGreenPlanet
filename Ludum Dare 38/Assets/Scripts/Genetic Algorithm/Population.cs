@@ -2,32 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Population : MonoBehaviour {
+public class Population  {
 
-    GameObject[] individuals;
+    Individual[] individuals;
     private float enemyScale = 0.6f;
 
     public Population(int populationSize, bool initialize)
     {
-        individuals = new GameObject[populationSize];
-
+        individuals = new Individual[populationSize];
+        
         if (initialize)
         {
-            for (int i = 0; i < Size(); i++)
+            for (int i = 0; i < individuals.Length ; i++)
             {
-                this.GetComponent<Individual>().GenerateIndividual(populationSize, enemyScale);
+                //Individual newIndividual = new Individual();
+                individuals[i].GenerateIndividual(populationSize, enemyScale);
+               // this.GetComponent<Individual>().GenerateIndividual(populationSize, enemyScale);
             }
         }
     }
 	
-	public GameObject GetIndividual(int index)
+	public Individual GetIndividual(int index)
 	{
 		return individuals[index];
 	}
 
-	public GameObject GetFittest()
+	public Individual GetFittest()
 	{
-		GameObject fittest = individuals[0];
+		Individual fittest = individuals[0];
 		// Loop through individuals to find fittest
 		for (int i = 0; i < Size(); i++)
 		{
@@ -45,7 +47,7 @@ public class Population : MonoBehaviour {
 	}
 
 	// Save individual
-	public void SaveIndividual(int index, GameObject indiv)
+	public void SaveIndividual(int index, Individual indiv)
 	{
 		individuals[index] = indiv;
 	}
