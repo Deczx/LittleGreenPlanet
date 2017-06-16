@@ -4,32 +4,30 @@ using UnityEngine;
 
 public class Population  {
 
-    Individual[] individuals;
+    GameObject[] individuals;
     private float enemyScale = 0.6f;
 
     public Population(int populationSize, bool initialize)
     {
-        individuals = new Individual[populationSize];
+        individuals = new GameObject[populationSize];
         
         if (initialize)
         {
             for (int i = 0; i < individuals.Length ; i++)
             {
-                //Individual newIndividual = new Individual();
-                individuals[i].GenerateIndividual(populationSize, enemyScale);
-               // this.GetComponent<Individual>().GenerateIndividual(populationSize, enemyScale);
+                individuals[i].GetComponent<Individual>().GenerateIndividual(populationSize, enemyScale);
             }
         }
     }
 	
-	public Individual GetIndividual(int index)
+	public GameObject GetIndividual(int index)
 	{
 		return individuals[index];
 	}
 
-	public Individual GetFittest()
+	public GameObject GetFittest()
 	{
-		Individual fittest = individuals[0];
+		GameObject fittest = individuals[0];
 		// Loop through individuals to find fittest
 		for (int i = 0; i < Size(); i++)
 		{
@@ -47,7 +45,7 @@ public class Population  {
 	}
 
 	// Save individual
-	public void SaveIndividual(int index, Individual indiv)
+	public void SaveIndividual(int index, GameObject indiv)
 	{
 		individuals[index] = indiv;
 	}

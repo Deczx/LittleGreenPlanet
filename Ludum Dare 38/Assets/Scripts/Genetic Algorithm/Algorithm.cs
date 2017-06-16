@@ -11,32 +11,27 @@ public class Algorithm {
 	private static bool elitism = true;
 
 	// Amount of enemies per wave.
-	private float spawnAmount;
-	private float startAmount;
-	public float waveTimer, waveDelay;
-	public float difficultyScale;
+	
 
 	private Quaternion rotation;
 
     void Start()
     {
-		startAmount = spawnAmount;
-
-		waveTimer = 0.0f;
+		
     }
 
     // Update is called once per frame
     void Update()
 	{
-		spawnAmount += difficultyScale * Time.deltaTime;
+		//spawnAmount += difficultyScale * Time.deltaTime;
 
-		waveTimer += Time.deltaTime;
-		if (waveTimer > waveDelay)
-		{
-			float waveAmount = Mathf.Round(spawnAmount - 0.5f);
-			// Spawn a wave of enemies every time the timer expires.
-			waveTimer = 0.0f;
-		}
+		//waveTimer += Time.deltaTime;
+		//if (waveTimer > waveDelay)
+		//{
+		//	float waveAmount = Mathf.Round(spawnAmount - 0.5f);
+		//	// Spawn a wave of enemies every time the timer expires.
+		//	waveTimer = 0.0f;
+		//}
 	}
 
 	/* Public methods */
