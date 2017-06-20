@@ -5,7 +5,7 @@ using UnityEngine;
 public class Population {
 
     GameObject[] individuals;
-    private float enemyScale = 0.6f;
+    private float enemyScale;
     private float spawnDelay = 0.1f;
     private int totalFitness, averageFitness;
     private int deadIndividuals;
@@ -13,7 +13,6 @@ public class Population {
     public Population(int populationSize, bool initialize)
     {
         individuals = new GameObject[populationSize];
-
         if (initialize)
         {
             for (int i = 0; i < Size(); i++)
@@ -23,6 +22,20 @@ public class Population {
             }
         }
     }
+
+	public Population(int populationSize, bool initialize, float scale)
+	{
+		individuals = new GameObject[populationSize];
+        enemyScale = scale;
+		if (initialize)
+		{
+			for (int i = 0; i < Size(); i++)
+			{
+				GameObject enemy = GameObject.FindWithTag("EnemySpawner").GetComponent<EnemySpawner>().SpawnEnemy(scale);
+				SaveIndividual(i, enemy);
+			}
+		}
+	}
 
 	public GameObject GetIndividual(int index)
 	{

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Individual : MonoBehaviour {
     
-    private float currentScale = 1.0f;
+	private float minimumScale = 0.2f;
+	private float maximumScale = 1.0f;
 	private int fitness = 0;
 
 	// Use this for initialization
@@ -21,13 +22,13 @@ public class Individual : MonoBehaviour {
 
 	public void SetScale(float scale)
 	{
-        currentScale = scale;
-		this.transform.localScale = new Vector3(scale, scale, scale);
+		if (scale > minimumScale && scale < maximumScale)
+			this.transform.localScale = new Vector3(scale, scale, scale);
+		else if (scale < minimumScale)
+			this.transform.localScale = new Vector3(minimumScale, minimumScale, minimumScale);
+		else if (scale > maximumScale)
+			this.transform.localScale = new Vector3(maximumScale, maximumScale, maximumScale);
 	}
-
-    public float GetScale() {
-        return currentScale;
-    }
 
 	public int GetFitness()
 	{

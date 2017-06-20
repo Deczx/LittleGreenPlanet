@@ -6,6 +6,7 @@ public class Algorithm : MonoBehaviour {
 
 	/* GA parameters */
 	private static double mutationRate = 0.015;
+    private static float scale;
 
     void Start()
     {
@@ -25,28 +26,25 @@ public class Algorithm : MonoBehaviour {
 		Population newPopulation = new Population(pop.Size(), true);
 		GameObject newIndiv = null;
 
-        float scale = pop.GetEnemyScale();
+        scale = pop.GetEnemyScale();
         float random = Random.Range(0.03f, 0.09f);
+        Debug.Log(scale);
 
         // Mutate population
         for (int i = 0; i < newPopulation.Size(); i++)
         {
             if (pop.GetAverageFitness() > FitnessFunction.GetGoalFitness())
             {
-                newIndiv = EasyMutate(newPopulation.GetIndividual(i), scale, random, pop);
+                newIndiv = EasyMutate(newPopulation.GetIndividual(i), random, pop);
             }
             else if (pop.GetAverageFitness() < FitnessFunction.GetGoalFitness())
 			{
-                newIndiv = HardMutate(newPopulation.GetIndividual(i), scale, random, pop);
-            }
-            else
-            {
-
-            }
+                newIndiv = HardMutate(newPopulation.GetIndividual(i), random, pop);
+			}
 			newPopulation.SaveIndividual(i, newIndiv);
         }
 
-        for (int i = 0; i < pop.Size(); i++)
+		for (int i = 0; i < pop.Size(); i++)
         {
             Destroy(pop.GetIndividual(i));
         }
@@ -54,23 +52,25 @@ public class Algorithm : MonoBehaviour {
 		return newPopulation;
 	}
 
-	// Mutate an individual to make it harder
-	private static GameObject EasyMutate(GameObject indiv, float scale, float random, Population pop)
+	// Mutate an individual to make it easier
+	private static GameObject EasyMutate(GameObject indiv, float random, Population pop)
 	{
-		float scaleModifier = scale + random;
-        Debug.Log("Easy: " + scaleModifier);
-		indiv.GetComponent<Individual>().SetScale(scaleModifier);
-		pop.SetEnemyScale(scaleModifier);
+		float modifier = scale + random;
+		Debug.Log("Scale Easy: " + modifier);
+		//Debug.Log("Easy: " + modifier);
+		indiv.GetComponent<Individual>().SetScale(modifier);
+		pop.SetEnemyScale(modifier);
 		return indiv;
 	}
 
 	// Mutate an individual to make it harder
-	private static GameObject HardMutate(GameObject indiv, float scale, float random, Population pop)
+	private static GameObject HardMutate(GameObject indiv, float random, Population pop)
 	{
-		float scaleModifier = scale - random;
-		Debug.Log("Hard: " + scaleModifier);
-        indiv.GetComponent<Individual>().SetScale(scaleModifier);
-        pop.SetEnemyScale(scaleModifier);
+		float modifier = scale - random;
+		Debug.Log("Scale Hard: " + modifier);
+		//Debug.Log("Hard: " + modifier);
+		indiv.GetComponent<Individual>().SetScale(modifier);
+		pop.SetEnemyScale(modifier);
 		return indiv;
 	}
 }
