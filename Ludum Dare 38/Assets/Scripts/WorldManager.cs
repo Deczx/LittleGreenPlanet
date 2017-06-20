@@ -52,10 +52,10 @@ public class WorldManager : MonoBehaviour {
         if (collision.gameObject.CompareTag("Enemy"))
         {
            
-            if (currentHealth <= 0)
-            {
-                Destroy(collision.gameObject);
-            }
+            //if (currentHealth <= 0)
+            //{
+            //    Destroy(collision.gameObject);
+            //}
                 
             
             if (timer >= damageDelay)

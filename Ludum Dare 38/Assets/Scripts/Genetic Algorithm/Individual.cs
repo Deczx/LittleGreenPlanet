@@ -3,37 +3,41 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Individual : MonoBehaviour {
+    
+	private float minimumScale = 0.1f;
+	private float maximumScale = 1.0f;
+	private int fitness = 0;
 
-	public GameObject enemyPrefab;
-	public GameObject spawnPoint;
-
-	public float spawnDelay;
-
-	// Create a random individual
-	public void GenerateIndividual(int popSize, float enemyScale)
+	// Use this for initialization
+	void Start()
 	{
-        for (int i = 0; i < popSize; i++)
-		{
-            StartCoroutine(SpawnEnemy(i * spawnDelay, enemyScale, i));
-		}
+
 	}
 
-	/* Getters and setters */
-	//public static void SetDefaultGeneLength(int length)
-	//{
-	//	defaultGeneLength = length;
-	//}
+	// Update is called once per frame
+	void Update()
+	{
 
-	//public byte GetGene(int index)
-	//{
-	//	return genes[index];
-	//}
+	}
 
-	//public void SetGene(int index, byte value)
-	//{
-	//	genes[index] = value;
-	//	fitness = 0;
-	//}
+	public void SetScale(float scale)
+	{
+		if (scale > minimumScale || scale < maximumScale)
+			this.transform.localScale = new Vector3(scale, scale, scale);
+		else if (scale < minimumScale)
+			this.transform.localScale = new Vector3(minimumScale, minimumScale, minimumScale);
+		else if (scale > maximumScale)
+			this.transform.localScale = new Vector3(maximumScale, maximumScale, maximumScale);
+	}
+
+	public int GetFitness()
+	{
+		if (fitness == 0)
+		{
+			fitness = FitnessFunction.GetFitness(this.gameObject);
+		}
+		return fitness;
+	}
 
 	/* Public methods */
 	//public int Size()
@@ -51,21 +55,5 @@ public class Individual : MonoBehaviour {
 	//	return geneString;
 	//}
 
-    IEnumerator SpawnEnemy(float waitTime, float enemyScale, int enemyCount)
-    {
-        yield return new WaitForSeconds(waitTime);
 
-        RotateSpawnPoint();
-        GameObject enemy = (GameObject)Instantiate(enemyPrefab, spawnPoint.transform.position, transform.rotation);
-		enemy.GetComponent<EnemyTraits>().SetScale(enemyScale);
-		this.GetComponent<Population>().SaveIndividual(enemyCount, enemy);
-    }
-
-	// Get a random position for the enemy to spawn at.
-	void RotateSpawnPoint()
-	{
-		int rotationZ = Random.Range(0, 360);
-		Quaternion rotation = Quaternion.Euler(0, 0, rotationZ);
-		this.transform.rotation = rotation;
-	}
 }

@@ -4,27 +4,14 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour {
 
-
-    //TODO Make better spawn timer system
-
-    // The time between each wave in seconds
+    public GameObject spawnPoint;
+    public GameObject enemyPrefab;
+    private GameObject enemy;
 
 	// Use this for initialization
 	void Start()
     {
-        Population myPop = new Population(50, true);
-
-		int generationCount = 0;
-		while (FitnessFunction.GetFitness(this.GetComponent<Population>().GetFittest()) < FitnessFunction.GetMaxFitness())
-		{
-			generationCount++;
-            Debug.Log("Generation: " + generationCount + " Fittest: " + FitnessFunction.GetFitness(this.GetComponent<Population>().GetFittest()));
-			myPop = Algorithm.EvolvePopulation(myPop);
-		}
-		Debug.Log("Solution found!");
-		Debug.Log("Generation: " + generationCount);
-		Debug.Log("Genes:");
-		Debug.Log(myPop.GetFittest());
+        
 	}
 
     // Update is called once per frame
@@ -32,4 +19,22 @@ public class EnemySpawner : MonoBehaviour {
     {
         
     }
+
+    public GameObject SpawnEnemy(float enemyScale)
+	{
+		RotateSpawnPoint();
+
+		enemy = (GameObject)Instantiate(enemyPrefab, spawnPoint.transform.position, transform.rotation);
+		enemy.GetComponent<Individual>().SetScale(enemyScale);
+
+        return enemy;
+	}
+
+	// Get a random position for the enemy to spawn at.
+	void RotateSpawnPoint()
+	{
+		int rotationZ = Random.Range(0, 360);
+		Quaternion rotation = Quaternion.Euler(0, 0, rotationZ);
+		this.transform.rotation = rotation;
+	}
 }

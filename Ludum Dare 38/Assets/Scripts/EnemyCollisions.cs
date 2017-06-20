@@ -26,7 +26,8 @@ public class EnemyCollisions : MonoBehaviour {
             GetComponent<SpriteRenderer>().enabled = false;
             GetComponent<BoxCollider2D>().enabled = false;
             scoreSystem.GetComponent<ScoreSystem>().AddScore(scoreValue);
-            Destroy(gameObject, audio.clip.length);
+            GameObject.FindWithTag("EnemySpawner").GetComponent<GA>().GetPopulation().IncreaseDeadIndividuals();
+            //Destroy(gameObject, audio.clip.length);
         }
     }
 

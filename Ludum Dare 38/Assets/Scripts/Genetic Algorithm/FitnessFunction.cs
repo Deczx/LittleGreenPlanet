@@ -5,6 +5,7 @@ using UnityEngine;
 public class FitnessFunction : MonoBehaviour {
 
 	static byte[] solution = new byte[64];
+    private static int goalFitness = 300;
 
 	/* Public methods */
 	// Set a candidate solution as a byte array
@@ -50,9 +51,9 @@ public class FitnessFunction : MonoBehaviour {
 	}
 
 	// Get optimum fitness
-	public static int GetMaxFitness()
+	public static int GetGoalFitness()
 	{
-		int maxFitness = solution.Length;
-		return maxFitness;
+		//int maxFitness = solution.Length;
+		return goalFitness;
 	}   
 }
