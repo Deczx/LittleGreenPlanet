@@ -7,6 +7,10 @@ public class EnemyCollisions : MonoBehaviour {
     public GameObject explosion;
     public int scoreValue;
     public GameObject[] powerups;
+    [SerializeField]
+    private int fitnessValue; // value for reaching planet
+    [SerializeField]
+    private int fitnessDistanceMultiplier;
 
     private GameObject scoreSystem;
 
@@ -27,6 +31,7 @@ public class EnemyCollisions : MonoBehaviour {
             GetComponent<BoxCollider2D>().enabled = false;
             scoreSystem.GetComponent<ScoreSystem>().AddScore(scoreValue);
             GameObject.FindWithTag("EnemySpawner").GetComponent<GA>().GetPopulation().IncreaseDeadIndividuals();
+            AddDistanceScore();
             //Destroy(gameObject, audio.clip.length);
         }
     }
@@ -37,6 +42,7 @@ public class EnemyCollisions : MonoBehaviour {
         {
             var particleSystem = gameObject.GetComponentInChildren<ParticleSystem>().emission;
             particleSystem.enabled = true;
+            this.GetComponent<Individual>().AddFitness(fitnessValue);
         }
     }
 
@@ -56,6 +62,14 @@ public class EnemyCollisions : MonoBehaviour {
                 transform.position,
                 transform.rotation);
         }
+    }
+
+    private void AddDistanceScore()
+    {
+        int score = fitnessDistanceMultiplier * (int) Mathf.Floor(10.0f - (Vector2.Distance(Vector2.zero, this.transform.position)));
+
+        Debug.Log("Added " + score + " to the fitness score. (enemy died)");
+        this.GetComponent<Individual>().AddFitness(score);
     }
 
     

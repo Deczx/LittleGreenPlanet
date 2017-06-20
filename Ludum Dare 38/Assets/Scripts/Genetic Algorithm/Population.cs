@@ -7,7 +7,7 @@ public class Population {
     GameObject[] individuals;
     private float enemyScale = 0.6f;
     private float spawnDelay = 0.1f;
-
+    private int totalFitness, averageFitness;
     private int deadIndividuals;
 
     public Population(int populationSize, bool initialize)
@@ -27,20 +27,6 @@ public class Population {
 	public GameObject GetIndividual(int index)
 	{
 		return individuals[index];
-	}
-
-	public GameObject GetFittest()
-	{
-		GameObject fittest = individuals[0];
-		// Loop through individuals to find fittest
-		for (int i = 0; i < Size(); i++)
-		{
-			if (fittest.GetComponent<Individual>().GetFitness() <= GetIndividual(i).GetComponent<Individual>().GetFitness())
-			{
-				fittest = GetIndividual(i);
-			}
-		}
-		return fittest;
 	}
 
     public int Size()
@@ -64,6 +50,7 @@ public class Population {
 
         if (deadIndividuals >= Size())
         {
+            CalculatePopulationFitness();
             deadIndividuals = 0;
             Debug.Log(deadIndividuals);
             GameObject.FindWithTag("EnemySpawner").GetComponent<GA>().NewPopulation();
@@ -73,5 +60,29 @@ public class Population {
     public int GetDeadIndividuals()
     {
         return deadIndividuals;
+    }
+
+    public void SetEnemyScale(float value)
+    {
+        enemyScale = value;
+    }
+
+    public float GetEnemyScale()
+    {
+        return enemyScale;
+    }
+
+    private void CalculatePopulationFitness()
+    {
+        for (int i = 0; i < Size(); i++)
+        {
+            totalFitness += GetIndividual(i).GetComponent<Individual>().GetFitness();
+        }
+        averageFitness = totalFitness / Size();
+    }
+
+    public int GetAverageFitness()
+    {
+        return averageFitness;
     }
 }

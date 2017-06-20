@@ -20,6 +20,8 @@ public class WorldManager : MonoBehaviour {
     private SpriteRenderer sprite;
     private GameObject mainCamera;
 
+    [SerializeField]
+    private int fitnessValue;
 
     void Start () {
         currentHealth = maxHealth;
@@ -62,9 +64,8 @@ public class WorldManager : MonoBehaviour {
             {
                 TakeDamage(DMG);
                 timer = 0.0f;
-                Debug.Log("DAMAGE!");
                 UpdateColor();
-                
+                collision.gameObject.GetComponent<Individual>().AddFitness(fitnessValue);
             }
 
         }

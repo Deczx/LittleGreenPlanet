@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class Algorithm : MonoBehaviour {
 
-
 	/* GA parameters */
 	private static double mutationRate = 0.015;
-	private static bool elitism = true;
 
     void Start()
     {
@@ -25,38 +23,28 @@ public class Algorithm : MonoBehaviour {
 	public static Population EvolvePopulation(Population pop)
 	{
 		Population newPopulation = new Population(pop.Size(), true);
+		GameObject newIndiv = null;
 
-		// Keep our best individual
-		if (elitism)
-		{
-			newPopulation.SaveIndividual(0, pop.GetFittest());
-		}
+        float scale = pop.GetEnemyScale();
+        float random = Random.Range(0.03f, 0.09f);
 
-		// Crossover population
-		int elitismOffset;
-		if (elitism)
-		{
-			elitismOffset = 1;
-		}
-		else
-		{
-			elitismOffset = 0;
-		}
-		// Loop over the population size and create new individuals with
-		// crossover
-		for (int i = elitismOffset; i < pop.Size(); i++)
-		{
-			//GameObject indiv1 = TournamentSelection(pop);
-			//GameObject indiv2 = TournamentSelection(pop);
-			//GameObject newIndiv = Crossover(indiv1, indiv2);
-			//newPopulation.SaveIndividual(i, newIndiv);
-		}
+        // Mutate population
+        for (int i = 0; i < newPopulation.Size(); i++)
+        {
+            if (pop.GetAverageFitness() > FitnessFunction.GetGoalFitness())
+            {
+                newIndiv = EasyMutate(newPopulation.GetIndividual(i), scale, random, pop);
+            }
+            else if (pop.GetAverageFitness() < FitnessFunction.GetGoalFitness())
+			{
+                newIndiv = HardMutate(newPopulation.GetIndividual(i), scale, random, pop);
+            }
+            else
+            {
 
-		// Mutate population
-		for (int i = elitismOffset; i < newPopulation.Size(); i++)
-		{
-			Mutate(newPopulation.GetIndividual(i));
-		}
+            }
+			newPopulation.SaveIndividual(i, newIndiv);
+        }
 
         for (int i = 0; i < pop.Size(); i++)
         {
@@ -66,20 +54,23 @@ public class Algorithm : MonoBehaviour {
 		return newPopulation;
 	}
 
-	// Mutate an individual
-	private static void Mutate(GameObject indiv)
+	// Mutate an individual to make it harder
+	private static GameObject EasyMutate(GameObject indiv, float scale, float random, Population pop)
 	{
-		// Loop through genes
-		//for (int i = 0; i < indiv.Size(); i++)
-		//{
-			if (Random.Range(0, 1) <= mutationRate)
-			{
-				// Create random gene
-				//byte gene = (byte)Mathf.Round(Random.Range(0,1));
-                
-                //TODO: Change range
-				indiv.GetComponent<Individual>().SetScale(Random.Range(0.1f, 1.0f));
-			}
-		//}
+		float scaleModifier = scale + random;
+        Debug.Log("Easy: " + scaleModifier);
+		indiv.GetComponent<Individual>().SetScale(scaleModifier);
+		pop.SetEnemyScale(scaleModifier);
+		return indiv;
+	}
+
+	// Mutate an individual to make it harder
+	private static GameObject HardMutate(GameObject indiv, float scale, float random, Population pop)
+	{
+		float scaleModifier = scale - random;
+		Debug.Log("Hard: " + scaleModifier);
+        indiv.GetComponent<Individual>().SetScale(scaleModifier);
+        pop.SetEnemyScale(scaleModifier);
+		return indiv;
 	}
 }
