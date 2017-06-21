@@ -12,6 +12,8 @@ public class EnemyCollisions : MonoBehaviour {
     [SerializeField]
     private int fitnessDistanceMultiplier;
 
+    private bool firstHit = true;
+
     private GameObject scoreSystem;
 
     private void Start()
@@ -43,6 +45,11 @@ public class EnemyCollisions : MonoBehaviour {
             var particleSystem = gameObject.GetComponentInChildren<ParticleSystem>().emission;
             particleSystem.enabled = true;
             this.GetComponent<Individual>().AddFitness(fitnessValue);
+            if (firstHit)
+            {
+                Population.IncrementReached();
+                firstHit = false;
+            }
         }
     }
 
@@ -68,7 +75,6 @@ public class EnemyCollisions : MonoBehaviour {
     {
         int score = fitnessDistanceMultiplier * (int) Mathf.Floor(10.0f - (Vector2.Distance(Vector2.zero, this.transform.position)));
 
-        Debug.Log("Added " + score + " to the fitness score. (enemy died)");
         this.GetComponent<Individual>().AddFitness(score);
     }
 

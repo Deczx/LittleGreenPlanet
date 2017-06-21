@@ -38,4 +38,9 @@ public class EnemyMovement : MonoBehaviour {
 
         enemyRigidBody.velocity = movementSpeed * direction;
 	}
+
+    public void SetSpeed(float value)
+    {
+        movementSpeed = value;
+    }
 }

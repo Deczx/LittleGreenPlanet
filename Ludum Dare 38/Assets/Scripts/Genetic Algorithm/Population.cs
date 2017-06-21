@@ -9,24 +9,13 @@ public class Population {
     private float spawnDelay = 0.1f;
     private int totalFitness, averageFitness;
     private int deadIndividuals;
-
-    public Population(int populationSize, bool initialize)
-    {
-        individuals = new GameObject[populationSize];
-        if (initialize)
-        {
-            for (int i = 0; i < Size(); i++)
-            {
-				GameObject enemy = GameObject.FindWithTag("EnemySpawner").GetComponent<EnemySpawner>().SpawnEnemy(enemyScale);
-				SaveIndividual(i, enemy);
-            }
-        }
-    }
+    private static int reachedIndividuals;
 
 	public Population(int populationSize, bool initialize, float scale)
 	{
 		individuals = new GameObject[populationSize];
         enemyScale = scale;
+
 		if (initialize)
 		{
 			for (int i = 0; i < Size(); i++)
@@ -58,14 +47,12 @@ public class Population {
         if (deadIndividuals < Size())
 		{
 			deadIndividuals++;
-            Debug.Log(deadIndividuals);
         }
 
         if (deadIndividuals >= Size())
         {
             CalculatePopulationFitness();
             deadIndividuals = 0;
-            Debug.Log(deadIndividuals);
             GameObject.FindWithTag("EnemySpawner").GetComponent<GA>().NewPopulation();
         }
     }
@@ -97,5 +84,20 @@ public class Population {
     public int GetAverageFitness()
     {
         return averageFitness;
+    }
+
+    public static void IncrementReached()
+    {
+        reachedIndividuals++;
+    }
+
+	public void ResetReached()
+	{
+		reachedIndividuals = 0;
+	}
+
+    public int GetReached()
+    {
+        return reachedIndividuals;
     }
 }

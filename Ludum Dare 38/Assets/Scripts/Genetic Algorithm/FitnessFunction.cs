@@ -4,7 +4,8 @@ using UnityEngine;
 
 public static class FitnessFunction {
 
-    private static int goalFitness = 120;
+    private static int goalFitness = 50;
+    private static int goalReached = 3;
 
 	//// Calculate inidividuals fittness by comparing it to our candidate solution
 	//public static int GetFitness(GameObject individual)
@@ -27,4 +28,9 @@ public static class FitnessFunction {
 		//int maxFitness = solution.Length;
 		return goalFitness;
 	}   
+
+    public static int GetGoalReached()
+    {
+        return goalReached;
+    }
 }

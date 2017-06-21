@@ -9,7 +9,7 @@ public class GA : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		myPop = new Population(10, true, 0.6f);
+		myPop = new Population(10, true, 0.5f);
 	}
 	
 	// Update is called once per frame
